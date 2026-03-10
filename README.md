@@ -1,130 +1,163 @@
 # QUANTUM-ARES
+**Architecture Security Validation Platform**
 
-## 1. Project Overview
-
-**QUANTUM-ARES** is a cybersecurity infrastructure validation platform that analyzes infrastructure architecture before deployment. It identifies security vulnerabilities such as attack paths, weak encryption, supply chain risks, and misconfigured trust relationships.
-
-The platform converts infrastructure configurations into a graph representation and generates a Security Index score along with a verifiable security report.
-
-## 2. Features
-- Pre-deployment infrastructure analysis
-- Automated vulnerability identification (attack paths, encryption, supply chains)
-- Architecture graph generation
-- Security Index scoring
-- Verifiable security reporting
-
-## 3. System Architecture
-
-The application is built on a modern decoupled architecture:
-- A responsive React frontend served via Vite
-- A fast asynchronous API powered by FastAPI
-- AI-assisted analysis using sentence-transformers and chromadb
-- Stateless scaling with in-memory design for MVP
-
-```mermaid
-graph TD
-    Client[Web Browser] -->|HTTP/REST| Frontend[React + Vite Frontend]
-    Frontend -->|API Calls + JWT| API[FastAPI Backend]
-    API -->|RAG Search| VectorDB[(ChromaDB)]
-    API -->|ML Models| AI[sentence-transformers]
-    API -->|Data Storage| Mem[In-Memory Dicts]
-```
-
-## 4. Technology Stack
-
-### Frontend
-- **Framework**: React 18
-- **Build Tool**: Vite
-- **Styling**: TailwindCSS
-
-### Backend
-- **Framework**: FastAPI
-- **Server**: Uvicorn
-- **Authentication**: JWT (`python-jose`)
-- **Password Hashing**: Argon2 (`argon2-cffi` / `passlib`)
-
-### Database (MVP)
-- **Current State**: In-memory dictionaries (`MOCK_USERS` and `SESSIONS_CACHE`)
-- **Note**: No external database is required for MVP.
-
-### AI Dependencies
-- `sentence-transformers`
-- `chromadb`
-
-### WebSockets
-- Redis Pub/Sub configured in `websocket.py` (Not currently wired in main runtime).
-
-### Deployment
-- Render native web services (No Docker required).
+*"Prevent breaches before deployment by validating infrastructure architecture."*
 
 ---
 
-## 5. Local Development Setup
+## 2. PROJECT OVERVIEW
 
-To run QUANTUM-ARES locally, you will need terminal access with Python and Node.js installed.
+QUANTUM-ARES is an advanced cybersecurity infrastructure validation platform that analyzes infrastructure configurations before deployment.
 
-## 6. Running the Backend
+The platform transforms infrastructure files into a unified **graph model**, runs them through specialized **security engines**, calculates a comprehensive **Security Index score**, and generates an actionable, verifiable **security report**.
 
-**Step 1:** Create and activate a Python virtual environment.
+### Risks Detected
+- 🔓 **Hidden attack paths**
+- 🔑 **Weak encryption algorithms**
+- 🛡️ **Zero-trust architecture violations**
+- 📦 **Supply-chain vulnerabilities**
+- ⚛️ **Quantum cryptography risks**
+
+---
+
+## 3. SYSTEM ARCHITECTURE
+
+QUANTUM-ARES operates across multiple layers, ensuring modular processing and scalable security validation.
+
+### Frontend
+- **React 18**
+- **Vite**
+- **TailwindCSS**
+- **Cytoscape.js** (for graph visualization)
+
+### Backend
+- **FastAPI** (High-performance API layer)
+- **Uvicorn** (ASGI server)
+- **JWT (python-jose)** (Authentication)
+- **Argon2** (Password hashing)
+
+### Processing Layer
+- **Celery Workers** (Async job processing)
+- **Redis Task Queue** (Message broker)
+
+### Core Engines
+- **Graph Engine**
+- **Zero-Trust Engine**
+- **Quantum Risk Engine**
+- **Attack Path Engine**
+- **Supply Chain Engine**
+
+### AI Advisory
+- **Sentence-BERT** (sentence-transformers)
+- **ChromaDB** (Semantic RAG Search)
+
+### Database & Caching
+- **PostgreSQL** (Persistent relational storage)
+- **Redis Cache** (In-memory caching and WebSockets)
+
+### Blockchain Anchor
+- **web3.py** (Smart contract interaction)
+- **Polygon Amoy** (Report verification anchoring)
+
+---
+
+## 4. ARCHITECTURE DIAGRAM
+
+<!-- [INSERT SYSTEM ARCHITECTURE DIAGRAM HERE] -->
+
+*Diagram Map: Upload IaC → FastAPI API → Celery parallel engines → Security Index → Report Generation → Blockchain Anchor.*
+
+---
+
+## 5. CORE ENGINES
+
+### Graph Engine
+Converts raw infrastructure configurations into a unified, queryable mathematical graph model.
+
+### Zero-Trust Engine
+Evaluates the architecture topology against strict zero-trust principles and NIST 800-207 guidelines.
+
+### Quantum Risk Engine
+Calculates the Quantum Vulnerability Index (QVI) score and estimates the "Harvest Now, Decrypt Later" (HNDL) exposure timeline.
+
+### Attack Path Engine
+Discovers and highlights potential attacker lateral movement routes from public ingress nodes to sensitive internal systems.
+
+### Supply Chain Engine
+Builds an SBOM (Software Bill of Materials) and cross-references dependencies against known vulnerability databases.
+
+---
+
+## 6. TECHNOLOGY STACK
+
+**Frontend**
+- React 18, TypeScript, TailwindCSS, Cytoscape.js
+
+**Backend**
+- FastAPI, Uvicorn, JWT, Argon2
+
+**AI & Analytics**
+- sentence-transformers, chromadb
+
+**Infrastructure**
+- Docker, Redis, PostgreSQL
+
+**Deployment Target**
+- Render Web Services
+
+---
+
+## 7. LOCAL DEVELOPMENT SETUP
+
+To run the project locally on your machine:
+
+### Backend
+
 ```bash
+# Create and activate virtual environment
 python -m venv venv
 
-# Activate on Windows:
+# Windows Prompt:
 venv\Scripts\activate
+# Linux/macOS:
+# source venv/bin/activate
 
-# Activate on Linux/macOS:
-source venv/bin/activate
-```
-
-**Step 2:** Install backend dependencies.
-```bash
+# Install dependencies
 pip install -r requirements.txt
-```
 
-**Step 3:** Run the backend server.
-```bash
+# Start backend server
 uvicorn saas_platform.backend.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-- The backend should now run at: http://localhost:8000
-- **Swagger docs**: http://localhost:8000/docs
+### Frontend
 
----
+Open a new terminal session.
 
-## 7. Running the Frontend
-
-**Step 1:** Navigate to the frontend directory.
-*(Note: In the current repository structure, the frontend code is located at the root in the `src` directory, so running it from the root directory works.)*
 ```bash
-cd frontend  # or run from root depending on folder layout
-```
+# Navigate to frontend (or stay in root if your package.json is mapped there)
+cd frontend 
 
-**Step 2:** Install dependencies.
-```bash
+# Install dependencies
 npm install
-```
 
-**Step 3:** Run the development server.
-```bash
+# Start development server
 npm run dev
 ```
 
-- The frontend should now run at: http://localhost:5173
-
 ---
 
-## 8. Environment Variables
+## 8. ENVIRONMENT VARIABLES
 
-Create a `.env` file in your backend and frontend contexts. Ensure paths match where your application loads them.
+Create local `.env` files for both context layers.
 
-### Backend (`.env`)
+### Backend Context
 ```ini
-PYTHON_VERSION=3.11
-SECRET_KEY=your-secure-secret-key
+PYTHON_VERSION=3.11.9
+SECRET_KEY=generate_secure_key
 CORS_ORIGINS=http://localhost:5173
 ```
 
-### Frontend (`.env`)
+### Frontend Context
 ```ini
 NODE_VERSION=20
 VITE_API_URL=http://localhost:8000/api
@@ -132,82 +165,69 @@ VITE_API_URL=http://localhost:8000/api
 
 ---
 
-## 9. Render Deployment Guide
+## 9. RENDER DEPLOYMENT
 
-QUANTUM-ARES is configured to deploy as two native web services on Render.
+The project is natively configured for Render deployment as two web services.
 
-### Render Blueprint (Recommended)
-Deployment can be done instantly using the `render.yaml` with **Render Blueprints**.
+### Backend Service (quantum-ares-backend)
+- **Build Command**: `pip install -r requirements.txt`
+- **Start Command**: `uvicorn saas_platform.backend.main:app --host 0.0.0.0 --port $PORT`
 
-1. Connect your GitHub repository to Render.
-2. Select **"New Blueprint Instance"**.
-3. Render automatically provisions and deploys both services using the blueprint.
-
-### Manual Setup
-
-If you prefer to deploy manually, configure the two services as follows:
-
-#### Backend Service
-- **Service Name**: `quantum-ares-backend`
-- **Region**: Ohio
-- **Plan**: Free
-- **Build Command**:
-  ```bash
-  pip install -r requirements.txt
-  ```
-- **Start Command**:
-  ```bash
-  uvicorn saas_platform.backend.main:app --host 0.0.0.0 --port $PORT
-  ```
-- **Environment Variables**:
-  - `PYTHON_VERSION` = `3.11`
-  - `SECRET_KEY` = *(Click Generate secure value in Render)*
-  - `CORS_ORIGINS` = `https://your-frontend-url.onrender.com`
-
-#### Frontend Service
-- **Service Name**: `quantum-ares-frontend`
-- **Region**: Ohio
-- **Plan**: Free
-- **Build Command**:
-  ```bash
-  npm install && npm run build
-  ```
-- **Start Command**:
-  ```bash
-  npx serve -s dist -l $PORT
-  ```
-- **Environment Variables**:
-  - `NODE_VERSION` = `20`
-  - `VITE_API_URL` = `https://your-backend-url.onrender.com/api`
+### Frontend Service (quantum-ares-frontend)
+- **Build Command**: `npm install && npm run build`
+- **Start Command**: `npx serve -s dist -l $PORT`
 
 ---
 
-## 10. Troubleshooting
+## 10. DIAGRAM PLACEHOLDERS
 
-### Out of Memory Error
-- **Cause**: The `sentence-transformers` package downloads heavy PyTorch dependencies.
-- **Fix**: Upgrade your Render plan temporarily, or remove `sentence-transformers` and `chromadb` from your `requirements.txt` if you don't need AI.
+<!-- INSERT SECURITY ENGINE PIPELINE DIAGRAM HERE -->
+
+<!-- INSERT INFRASTRUCTURE GRAPH VISUALIZATION HERE -->
+
+<!-- INSERT SECURITY INDEX DASHBOARD SCREENSHOT HERE -->
+
+---
+
+## 11. TROUBLESHOOTING
+
+### Out of Memory (OOM) Errors
+- **Cause**: The `sentence-transformers` library downloads heavy PyTorch models on startup.
+- **Fix**: Upgrade the Render plan temporarily, or remove `sentence-transformers` and `chromadb` from `requirements.txt` if ML advisory is not immediately needed.
 
 ### Frontend `react/jsx-runtime` Error
-- **Cause**: React might be incorrectly set as a `peerDependency`.
-- **Fix**: Ensure React is listed clearly in `dependencies` inside `package.json`.
+- **Cause**: React incorrectly configured as a `peerDependency`.
+- **Fix**: Ensure React is listed in standard `dependencies` in `package.json`.
 
-### Backend `jwt module` Error
-- **Cause**: A conflict between `PyJWT` and `python-jose` packages.
-- **Fix**: Use `python-jose` imports consistently (`from jose import jwt` instead of `import jwt`).
+### Backend `jwt` Module Error
+- **Cause**: Namespace conflict between `PyJWT` and `python-jose`.
+- **Fix**: Remove `PyJWT`. Always use `python-jose` imports consistently across the codebase (`from jose import jwt`).
 
 ### CORS Error
-- **Cause**: Incorrect `CORS_ORIGINS` value linking the frontend and backend.
-- **Fix**: Set the `CORS_ORIGINS` environment variable exactly to the frontend URL (without trailing slashes).
+- **Cause**: Incorrect `CORS_ORIGINS` value bridging the Frontend to the Backend.
+- **Fix**: Set the backend environment variable exactly to the frontend's deployed URL (omit trailing slash).
 
 ### Data Resets After Reload
-- **Cause**: The system uses in-memory storage for MVPs (`MOCK_USERS`, `SESSIONS_CACHE`).
-- **Fix**: This is expected for the MVP. Implement the PostgreSQL database for data persistence.
+- **Cause**: The current system configuration relies on in-memory dictionary storage (`MOCK_USERS`, `SESSIONS_CACHE`) for the MVP stage.
+- **Fix**: This is expected behavior. Implement the PostgreSQL persistence layer for production.
 
 ---
 
-## 11. Future Improvements
-- Wire the PostgreSQL schema into the main runtime for data persistence.
-- Implement and connect the Redis Pub/Sub WebSocket handlers for real-time analysis streaming.
-- Integrate active containerized scanning or external vulnerability database syncs.
-- Containerize the application stack using Docker.
+## 12. FUTURE IMPROVEMENTS
+
+- **PostgreSQL Persistence**: Wire existing SQLAlchemy schemas to a live database.
+- **Real-Time WebSocket Analysis**: Activate Redis Pub/Sub streams for live UI streaming.
+- **Advanced AI Advisory**: Expand ChromaDB local RAG pipeline with higher context limits.
+- **Enterprise Compliance Frameworks**: Integrate SOC2 and ISO27001 automated compliance checks.
+
+---
+
+## 13. CONTRIBUTING
+
+Contributions to QUANTUM-ARES are highly encouraged. Please review our open issues, ensure local tests pass, maintain type safety across the frontend, and submit detailed pull requests outlining your architecture improvements.
+
+---
+
+## 14. LICENSE
+
+This project is licensed under the MIT License. See the LICENSE file for more details.
