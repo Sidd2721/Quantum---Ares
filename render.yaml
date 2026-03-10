@@ -13,6 +13,13 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: 3.11
+      - key: SECRET_KEY
+        generateValue: true
+      - key: CORS_ORIGINS
+        fromService:
+          type: web
+          name: quantum-ares-frontend
+          envVarKey: RENDER_EXTERNAL_URL
 
 
   # -------------------------
@@ -27,6 +34,8 @@ services:
     startCommand: npx serve -s dist -l $PORT
 
     envVars:
+      - key: NODE_VERSION
+        value: 20
       - key: VITE_API_URL
         fromService:
           type: web

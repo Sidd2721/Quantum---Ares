@@ -2,7 +2,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from fastapi import Request, HTTPException, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import text
-import jwt
+from jose import jwt
 from saas_platform.backend.auth.jwt_auth import SECRET_KEY, ALGORITHM
 
 class OrgMiddleware(BaseHTTPMiddleware):
