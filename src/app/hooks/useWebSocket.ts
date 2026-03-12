@@ -48,7 +48,7 @@ export const useWebSocket = (sessionId: string | null) => {
         }, 300);
 
         const getWsUrl = () => {
-            const apiBase = (import.meta as any).env.VITE_API_URL || 'http://localhost:8000/api';
+            const apiBase = `${import.meta.env.VITE_API_URL}/api`;
             const wsBase = apiBase.replace(/^http/, 'ws');
             return `${wsBase}/ws/${sessionId}`;
         };

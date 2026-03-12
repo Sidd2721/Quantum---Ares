@@ -158,7 +158,7 @@ export function OverviewTab() {
                     <td style={{ padding: '14px 24px' }}>
                       <div style={{ display: 'flex', gap: 8 }}>
                         <button className="qa-action-btn" onClick={() => handleViewSession(s.id)}><Eye size={12} />View</button>
-                        <button className="qa-action-btn" onClick={() => window.open(`${(import.meta as any).env.VITE_API_URL || 'http://localhost:8000'}/api/reports/${s.report_id}/download`, '_blank')}><Download size={12} />PDF</button>
+                        <button className="qa-action-btn" onClick={() => window.open(`${import.meta.env.VITE_API_URL}/api/reports/${s.report_id}/download`, '_blank')}><Download size={12} />PDF</button>
                       </div>
                     </td>
                   </tr>

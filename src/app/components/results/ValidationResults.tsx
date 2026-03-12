@@ -69,7 +69,7 @@ export function ValidationResults({ sessionName: propName }: ValidationResultsPr
         </div>
 
         <button
-          onClick={() => window.open(`${(import.meta as any).env.VITE_API_URL || 'http://localhost:8000'}/api/reports/${metadata.report_id}/download`, '_blank')}
+          onClick={() => window.open(`${import.meta.env.VITE_API_URL}/api/reports/${metadata.report_id}/download`, '_blank')}
           style={{
             display: 'flex', alignItems: 'center', gap: 8,
             padding: '10px 18px', borderRadius: 8,

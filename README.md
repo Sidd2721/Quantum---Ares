@@ -173,9 +173,12 @@ The project is natively configured for Render deployment as two web services.
 - **Build Command**: `pip install -r requirements.txt`
 - **Start Command**: `uvicorn saas_platform.backend.main:app --host 0.0.0.0 --port $PORT`
 
-### Frontend Service (quantum-ares-frontend)
+### Render Frontend Deployment
 - **Build Command**: `npm install && npm run build`
 - **Start Command**: `npx serve -s dist -l $PORT`
+
+**Environment Variable:**
+- `VITE_API_URL` = `https://quantum-ares-3.onrender.com`
 
 ---
 

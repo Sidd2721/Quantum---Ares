@@ -173,7 +173,7 @@ export function HistoryTab() {
                     <td style={{ padding: '13px 20px' }}>
                       <div style={{ display: 'flex', gap: 8 }}>
                         <button className="qa-action-btn" onClick={() => handleViewResults(s.id)}><Eye size={11} />View Results</button>
-                        <button className="qa-action-btn" onClick={() => window.open(`${(import.meta as any).env.VITE_API_URL || 'http://localhost:8000'}/api/reports/${s.report_id}/download`, '_blank')}><Download size={11} />PDF</button>
+                        <button className="qa-action-btn" onClick={() => window.open(`${import.meta.env.VITE_API_URL}/api/reports/${s.report_id}/download`, '_blank')}><Download size={11} />PDF</button>
                       </div>
                     </td>
                   </tr>
