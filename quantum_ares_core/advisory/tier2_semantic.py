@@ -1,6 +1,5 @@
 import os
 import chromadb
-from sentence_transformers import SentenceTransformer
 from typing import Dict, Any, List, Optional
 
 class SemanticAdvisor:
@@ -16,16 +15,23 @@ class SemanticAdvisor:
 
     def initialize(self):
         if self.model is None:
-            print("Loading sentence-transformers (all-MiniLM-L6-v2)...")
-            self.model = SentenceTransformer('all-MiniLM-L6-v2')
+            try:
+                print("Loading sentence-transformers (all-MiniLM-L6-v2)...")
+                from sentence_transformers import SentenceTransformer
+                self.model = SentenceTransformer('all-MiniLM-L6-v2')
+            except Exception as e:
+                print(f"Optional service sentence-transformers failed to start: {e}")
             
         if self.db_client is None:
-            persist_dir = os.path.join(os.path.dirname(__file__), "..", "data", "chroma_db")
-            self.db_client = chromadb.PersistentClient(path=persist_dir)
-            self.collection = self.db_client.get_or_create_collection(name="compliance_docs")
-            
-            if self.collection.count() == 0:
-                self._seed_knowledge_base()
+            try:
+                persist_dir = os.path.join(os.path.dirname(__file__), "..", "data", "chroma_db")
+                self.db_client = chromadb.PersistentClient(path=persist_dir)
+                self.collection = self.db_client.get_or_create_collection(name="compliance_docs")
+                
+                if self.collection.count() == 0 and self.model is not None:
+                    self._seed_knowledge_base()
+            except Exception as e:
+                print(f"Optional service chromadb failed to start: {e}")
 
     def _seed_knowledge_base(self):
         # Placeholder documents for RAG
@@ -52,7 +58,16 @@ class SemanticAdvisor:
         )
 
     def search(self, question: str) -> Dict[str, Any]:
-        if not self.model: self.initialize()
+        if not self.model or not self.collection: 
+            self.initialize()
+            
+        if not self.model or not self.collection:
+            return {
+                "answer": "Semantic search is currently disabled because the AI advisor model or database failed to load.",
+                "tier": 2,
+                "badge": "Semantic ⚠️",
+                "sources": []
+            }
         
         query_embedding = self.model.encode([question]).tolist()
         results = self.collection.query(

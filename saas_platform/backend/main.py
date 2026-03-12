@@ -6,21 +6,11 @@ from saas_platform.backend.api.routes import router as api_router
 from saas_platform.backend.auth.org_middleware import OrgMiddleware
 from quantum_ares_core.advisory.tier2_semantic import SemanticAdvisor
 
-import asyncio
-
-def initialize_service():
-    advisor = SemanticAdvisor()
-    try:
-        advisor.initialize()
-    except Exception as e:
-        print("Optional service failed to start:", e)
-
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Initialize optional heavy services in background to avoid Render timeout port binding
-    asyncio.create_task(asyncio.to_thread(initialize_service))
+    # No heavy services should block or run in background during startup on Render.
+    # Models and DBs will lazy load on first request.
     yield
-    # Cleanup logic here
 
 app = FastAPI(
     title="QUANTUM-ARES API",
