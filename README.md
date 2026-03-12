@@ -175,7 +175,7 @@ The project is natively configured for Render deployment as two web services.
 
 ### Render Frontend Deployment
 - **Build Command**: `npm install && npm run build`
-- **Start Command**: `npx serve -s dist -l $PORT`
+- **Start Command**: `npx serve -s dist -l $PORT --single`
 
 **Environment Variable:**
 - `VITE_API_URL` = `https://quantum-ares-3.onrender.com`

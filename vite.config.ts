@@ -4,8 +4,10 @@ import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 
 export default defineConfig({
+  base: "./",
   build: {
-    outDir: "dist"
+    outDir: "dist",
+    chunkSizeWarningLimit: 2000
   },
   plugins: [
     // The React and Tailwind plugins are both required for Make, even if
